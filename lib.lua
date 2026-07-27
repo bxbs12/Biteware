@@ -19,7 +19,10 @@ local loaders = {}
 --
 local utility = {}
 --
-local check_exploit = (syn and "Synapse") or (KRNL_LOADED and "Krnl") or (isourclosure and "ScriptWare") or nil
+local check_exploit = nil
+pcall(function()
+	check_exploit = (syn and "Synapse") or (KRNL_LOADED and "Krnl") or (isourclosure and "ScriptWare") or nil
+end)
 local plrs = game:GetService("Players")
 local cre = game:GetService("CoreGui")
 local rs = game:GetService("RunService")
@@ -802,7 +805,9 @@ function library:saveconfig()
 end
 --
 function library:loadconfig(cfg)
-	local cfg = hs:JSONDecode(readfile(cfg))
+	local success, data = pcall(readfile, cfg)
+	if not success or not data then return end
+	local cfg = hs:JSONDecode(data)
 	for i,v in pairs(cfg) do
 		for c,d in pairs(v) do
 			for x,z in pairs(d) do
@@ -1497,7 +1502,7 @@ function multisections:section(props)
 			for i,v in pairs(self.mssections) do
 				if v ~= mssection then
 					if v.open then
-						v.page.Visible = false
+						v.content.Visible = false
 						v.open = false
 						v.outline.BackgroundColor3 = Color3.fromRGB(31, 31 ,31)
 						v.line.Size = UDim2.new(1,0,0,2)
@@ -4473,7 +4478,9 @@ function sections:configloader(props)
 			v.title:Remove()
 		end
 		createdbuttons = {}
-		for i, v in ipairs(listfiles(folder)) do
+		local success, files = pcall(listfiles, folder)
+		if not success then return end
+		for i, v in ipairs(files) do
 			local name = v:match("([^/\\]+)%.cfg$")
 			if not name then continue end
 
@@ -4537,7 +4544,7 @@ function sections:configloader(props)
 	end)
 	--
 	delete[3].MouseButton1Down:Connect(function()
-		delfile(folder .. "/" .. selected.name..".cfg")
+		pcall(delfile, folder .. "/" .. selected.name..".cfg")
 		delete[2].BorderColor3 = self.library.theme.accent
 		task.wait(0.05)
 		delete[2].BorderColor3 = Color3.fromRGB(12,12,12)
@@ -4546,7 +4553,7 @@ function sections:configloader(props)
 	end)
 	--
 	save[3].MouseButton1Down:Connect(function()
-		writefile(folder .. "/" .. selected.name..".cfg", self.library:saveconfig())
+		pcall(writefile, folder .. "/" .. selected.name..".cfg", self.library:saveconfig())
 		save[2].BorderColor3 = self.library.theme.accent
 		task.wait(0.05)
 		save[2].BorderColor3 = Color3.fromRGB(12,12,12)
@@ -4555,7 +4562,7 @@ function sections:configloader(props)
 	end)
 	--
 	create[3].MouseButton1Down:Connect(function()
-		writefile(folder .. "/" .. currentname..".cfg", self.library:saveconfig())
+		pcall(writefile, folder .. "/" .. currentname..".cfg", self.library:saveconfig())
 		create[2].BorderColor3 = self.library.theme.accent
 		task.wait(0.05)
 		create[2].BorderColor3 = Color3.fromRGB(12,12,12)
