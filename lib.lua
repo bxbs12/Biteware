@@ -151,9 +151,11 @@ function library:new(props)
 		}
 	)
 	--
-        if (check_exploit == "Synapse" and syn.request) then
-			syn.protect_gui(screen)
-        end
+        pcall(function()
+			if (check_exploit == "Synapse" and syn.request) then
+				syn.protect_gui(screen)
+			end
+		end)
 	-- 1
 	local outline = utility.new(
 		"Frame",
@@ -561,9 +563,11 @@ function library:loader(props)
 			Parent = cre
 		}
 	)
-        if (check_exploit == "Synapse" and syn.request) then
-			syn.protect_gui(screen)
-        end
+        pcall(function()
+			if (check_exploit == "Synapse" and syn.request) then
+				syn.protect_gui(screen)
+			end
+		end)
 	--
 	local outline = utility.new(
 		"Frame",
