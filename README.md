@@ -5,7 +5,7 @@ Biteware provides you a bunch of useful features to improve your gameplay.
 
 ## Loadstring to load Biteware: 
 ```lua
-loadstring(game:HttpGet('https://raw.githubusercontent.com/bxbs12/Biteware/refs/heads/main/obf.lua'))()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/bxbs12/Biteware/refs/heads/master/obf.lua'))()
 ```
 
 ## Features
