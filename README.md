@@ -52,5 +52,5 @@ loadstring(game:HttpGet('https://raw.githubusercontent.com/bxbs12/Biteware/refs/
   
 ## Our Support & Etc Server:
 ```css
-discord.gg/ebKdZTmvrR
+discord.gg/WSNU7MbyrH
 ```
